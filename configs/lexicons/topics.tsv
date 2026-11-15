@@ -1,0 +1,250 @@
+code	programming language	0.95
+code	source code	0.95
+code	compiler	0.9
+code	syntax error	0.9
+code	function definition	0.9
+code	variable declaration	0.85
+code	github repository	0.95
+code	pull request	0.9
+code	unit test	0.85
+code	api endpoint	0.85
+code	data structure	0.85
+code	algorithm	0.8
+code	debugging	0.85
+code	runtime exception	0.9
+code	memory allocation	0.9
+code	object oriented	0.85
+code	asynchronous function	0.9
+code	database query	0.85
+code	sql schema	0.85
+code	frontend framework	0.85
+code	backend server	0.8
+code	docker container	0.9
+code	kubernetes cluster	0.9
+code	git commit	0.85
+code	software architecture	0.85
+news	breaking news	0.95
+news	press conference	0.9
+news	prime minister announced	0.9
+news	official spokesperson	0.85
+news	cabinet meeting	0.85
+news	parliamentary session	0.85
+news	election commission	0.9
+news	diplomatic relations	0.85
+news	bilateral agreement	0.85
+news	press release	0.8
+news	news agency	0.85
+news	investigative journalist	0.85
+news	headline report	0.85
+news	according to sources	0.8
+news	government circular	0.85
+news	state administration	0.8
+news	curfew imposed	0.9
+news	protest rally	0.85
+news	peace treaty	0.85
+news	international summit	0.85
+news	spokesperson stated	0.85
+news	emergency declared	0.9
+news	policy reform	0.8
+news	civic polls	0.85
+news	broadcast coverage	0.8
+medical	clinical trial	0.95
+medical	patient diagnosis	0.9
+medical	symptoms include	0.85
+medical	prescription medication	0.9
+medical	hospital admission	0.85
+medical	surgical procedure	0.9
+medical	cardiovascular disease	0.95
+medical	blood pressure reading	0.85
+medical	oncology department	0.95
+medical	chemotherapy treatment	0.95
+medical	pathology laboratory	0.9
+medical	vaccine dose	0.9
+medical	pediatric care	0.85
+medical	antibiotic resistance	0.95
+medical	infectious disease	0.9
+medical	radiology scan	0.9
+medical	intensive care unit	0.9
+medical	chronic illness	0.85
+medical	neurological disorder	0.95
+medical	therapeutic intervention	0.9
+medical	pharmaceutical research	0.9
+medical	medical prognosis	0.9
+medical	diabetes management	0.85
+medical	outpatient clinic	0.85
+medical	immune response	0.85
+legal	supreme court	0.95
+legal	high court ruling	0.95
+legal	plaintiff filed	0.9
+legal	defendant counsel	0.9
+legal	judicial magistrate	0.9
+legal	affidavit sworn	0.95
+legal	statutory obligation	0.9
+legal	constitutional validity	0.95
+legal	criminal prosecution	0.95
+legal	breach of contract	0.9
+legal	arbitration tribunal	0.95
+legal	writ petition	0.95
+legal	appellate jurisdiction	0.95
+legal	legal injunction	0.9
+legal	penal code section	0.95
+legal	interim order	0.9
+legal	court decree	0.9
+legal	bail application	0.9
+legal	witness testimony	0.85
+legal	admissibility of evidence	0.9
+legal	power of attorney	0.9
+legal	indemnity clause	0.9
+legal	tort liability	0.95
+legal	jurisprudence	0.9
+legal	settlement agreement	0.85
+finance	stock market index	0.95
+finance	quarterly earnings	0.9
+finance	mutual fund investment	0.9
+finance	central bank interest rate	0.95
+finance	inflation rate	0.85
+finance	gdp growth rate	0.9
+finance	dividend yield	0.9
+finance	balance sheet asset	0.9
+finance	fiscal deficit	0.9
+finance	portfolio diversification	0.85
+finance	equity shares	0.85
+finance	corporate bonds	0.9
+finance	venture capital funding	0.9
+finance	revenue guidance	0.85
+finance	foreign exchange reserves	0.9
+finance	market capitalization	0.9
+finance	bullish sentiment	0.85
+finance	bearish trend	0.85
+finance	credit rating downgrade	0.9
+finance	treasury bills	0.9
+finance	cryptocurrency trading	0.85
+finance	mergers and acquisitions	0.9
+finance	cash flow statement	0.9
+finance	tax deduction	0.8
+finance	banking liquidity	0.85
+education	university curriculum	0.9
+education	undergraduate degree	0.9
+education	academic semester	0.85
+education	scholarship program	0.85
+education	student enrollment	0.85
+education	examination results	0.85
+education	doctoral dissertation	0.95
+education	master thesis	0.9
+education	school syllabus	0.85
+education	classroom teaching	0.8
+education	pedagogical method	0.9
+education	faculty professor	0.85
+education	admissions criteria	0.85
+education	tuition fees	0.8
+education	campus library	0.8
+education	distance learning	0.85
+education	online coursework	0.8
+education	vocational training	0.85
+education	graduation ceremony	0.85
+education	higher education board	0.9
+education	educational institution	0.85
+education	research fellow	0.85
+education	peer reviewed journal	0.9
+education	textbook publication	0.8
+education	grade point average	0.85
+religion	temple ritual	0.9
+religion	holy scripture	0.95
+religion	church congregation	0.9
+religion	mosque prayer	0.9
+religion	pilgrimage site	0.9
+religion	spiritual discourse	0.85
+religion	vedic chanting	0.95
+religion	theological doctrine	0.95
+religion	deity worship	0.9
+religion	sacred hymn	0.9
+religion	festival celebration	0.8
+religion	devotional singing	0.85
+religion	monastery monks	0.9
+religion	priestly blessing	0.85
+religion	sermon delivered	0.85
+religion	divine grace	0.85
+religion	religious festival	0.85
+religion	sacred shrine	0.9
+religion	fasting and prayer	0.85
+religion	scriptural commentary	0.9
+religion	spiritual guru	0.85
+religion	dharma teaching	0.9
+religion	quran recitation	0.95
+religion	bible study	0.95
+religion	bhagavad gita shloka	0.95
+sports	championship final	0.9
+sports	tournament bracket	0.85
+sports	world cup qualifiers	0.95
+sports	cricket test match	0.95
+sports	football league	0.9
+sports	olympic gold medal	0.95
+sports	tennis grand slam	0.95
+sports	athlete training	0.85
+sports	head coach strategy	0.85
+sports	match referee	0.85
+sports	stadium attendance	0.8
+sports	penalty shootout	0.9
+sports	wicket haul	0.95
+sports	century scored	0.9
+sports	goal scored in extra time	0.9
+sports	badminton tournament	0.85
+sports	marathon runner	0.85
+sports	boxing heavyweight title	0.9
+sports	formula one grand prix	0.95
+sports	team standings	0.8
+sports	semifinal clash	0.85
+sports	player substitution	0.8
+sports	trophy presentation	0.85
+sports	sports commentator	0.85
+sports	roster injury list	0.8
+entertainment	box office collection	0.95
+entertainment	film director	0.85
+entertainment	lead actor	0.85
+entertainment	bollywood movie	0.9
+entertainment	hollywood blockbuster	0.9
+entertainment	cinema theater	0.8
+entertainment	movie soundtrack	0.85
+entertainment	official trailer released	0.9
+entertainment	award ceremony	0.85
+entertainment	film festival premiere	0.9
+entertainment	streaming series episode	0.85
+entertainment	celebrity gossip	0.8
+entertainment	red carpet event	0.85
+entertainment	acting performance	0.8
+entertainment	musical concert tour	0.85
+entertainment	television drama series	0.85
+entertainment	album release date	0.85
+entertainment	comedy show special	0.8
+entertainment	cinematography award	0.9
+entertainment	pop culture phenomenon	0.8
+entertainment	film critic review	0.85
+entertainment	theatrical release	0.85
+entertainment	screenplay writer	0.85
+entertainment	song lyricist	0.8
+entertainment	star-studded premiere	0.85
+general	weather forecast	0.8
+general	climate conditions	0.8
+general	daily routine	0.7
+general	public transportation	0.75
+general	recipe ingredients	0.8
+general	home cooking instructions	0.75
+general	gardening advice	0.75
+general	community gathering	0.75
+general	city architecture	0.75
+general	historical monument	0.8
+general	travel destination itinerary	0.8
+general	environmental conservation	0.8
+general	wildlife sanctuary	0.8
+general	household maintenance	0.7
+general	local folklore	0.75
+general	cultural heritage	0.8
+general	traditional cuisine	0.75
+general	neighborhood park	0.7
+general	road safety rules	0.75
+general	waste recycling tips	0.75
+general	morning commute	0.7
+general	weekend leisure activities	0.7
+general	handicraft artisans	0.75
+general	village lifestyle	0.75
+general	seasonal changes	0.7

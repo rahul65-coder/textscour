@@ -1,0 +1,65 @@
+# TEXTSCOUR Kaggle Dual T4 Production Environment Configuration
+# Designed for 11.5-hour Kaggle kernel sessions with 2x NVIDIA T4 GPUs,
+# 16 GB disk constraint, automatic upload with local deletion, and state sync.
+
+sources:
+  - type: hf
+    repo: "HuggingFaceTB/smollm-corpus"
+    split: "train"
+    text:
+      mode: "auto"
+
+output:
+  dir: "outputs"
+  clean_name: "clean"
+  garbage_name: "garbage"
+  format: "jsonl.zst"
+  shard_mb: 250
+  emit_fragments: true
+  final_merge: false
+
+upload:
+  enabled: true
+  repo: "placeholder-org/textscour-cleaned"
+  private: true
+  commit_every_shards: 4
+  commit_every_seconds: 300
+  delete_after_upload: true
+  state_backend: "hf"
+
+cascade:
+  gpu_mode: "auto"
+  model: "titanAId/textscour-classifier"
+  gpu_drop_p: 0.85
+  gpu_strip_p: 0.50
+  promo_lo: 0.30
+  promo_hi: 0.70
+  url_policy: "smart"
+  min_doc_chars: 200
+  clean_threshold: 6.0
+  pii_mode: "redact"
+  allowed_langs:
+    - "en"
+    - "hi"
+    - "hinglish"
+  lexicon_dir: "configs/lexicons"
+
+runtime:
+  autotune: "auto"
+  readers: "auto"
+  workers: "auto"
+  rust_threads: "auto"
+  batch_docs: "auto"
+  queue_depth: "auto"
+  gpu_batch_tokens: "auto"
+  gpu_inflight: 2
+  gpu_job_chunks: 128
+  max_runtime_seconds: 41400            # 11.5 hours: graceful exit before Kaggle 12h cutoff
+  disk_budget_gb: 16.0                  # Kaggle disk safety ceiling
+  ram_budget_frac: 0.80
+  max_error_rate: 0.01
+
+dedup:
+  mode: "minhash"
+  shingle_k: 5
+  max_mem_gb: 2.0

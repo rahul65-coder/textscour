@@ -1,0 +1,95 @@
+# TEXTSCOUR Multi-Source Example Configuration
+# Demonstrates heterogeneous sources (3 HF Hub datasets + 1 local directory)
+# with differing text extraction specs (field, concat, messages, and path).
+
+sources:
+  # Source 1: Standard web text using direct field extraction
+  - type: hf
+    repo: "HuggingFaceTB/smollm-corpus"
+    name: "cosmopedia-v2"
+    split: "train"
+    text:
+      mode: "field"
+      field: "text"
+    domain: "educational"
+    weight: 1.0
+
+  # Source 2: Multi-field article using concatenation with separator
+  - type: hf
+    repo: "wikitext"
+    name: "wikitext-103-raw-v1"
+    split: "train"
+    text:
+      mode: "concat"
+      fields:
+        - "title"
+        - "text"
+      sep: "\n\n"
+    domain: "wikipedia"
+    weight: 0.8
+
+  # Source 3: Multi-turn chat / conversational dataset
+  - type: hf
+    repo: "HuggingFaceH4/ultrachat_200k"
+    split: "train_sft"
+    text:
+      mode: "messages"
+      field: "messages"
+      role_filter:
+        - "user"
+        - "assistant"
+      sep: "\n\n"
+    domain: "conversation"
+    weight: 0.5
+
+  # Source 4: Local nested JSON/Parquet files with dotted path resolution
+  - type: parquet
+    paths:
+      - "data/parquet/*.parquet"
+    text:
+      mode: "path"
+      field: "metadata.content.body"
+    domain: "local_news"
+    weight: 1.0
+
+output:
+  dir: "outputs/multi_source"
+  clean_name: "clean"
+  garbage_name: "garbage"
+  format: "jsonl"
+  shard_mb: 500
+  emit_fragments: true
+  final_merge: true
+
+upload:
+  enabled: false
+
+cascade:
+  gpu_mode: "auto"
+  promo_lo: 0.30
+  promo_hi: 0.70
+  url_policy: "smart"
+  min_doc_chars: 150
+  clean_threshold: 6.0
+  pii_mode: "redact"
+  allowed_langs:
+    - "en"
+    - "hi"
+    - "hinglish"
+  lexicon_dir: "configs/lexicons"
+
+runtime:
+  autotune: "auto"
+  readers: 2
+  workers: 4
+  rust_threads: 2
+  batch_docs: 512
+  queue_depth: 4
+  disk_budget_gb: 16.0
+  ram_budget_frac: 0.80
+  max_error_rate: 0.01
+
+dedup:
+  mode: "minhash"
+  shingle_k: 5
+  max_mem_gb: 2.0

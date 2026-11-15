@@ -1,0 +1,158 @@
+# kaggle_ops/dispatch_plan.yaml — DAG Dispatch Plan for Dual-Account Kaggle GPU Execution
+
+version: "1.0"
+quota_policy:
+  quota_per_account_hours: 30.0
+  reserve_hours: 4.0
+  max_spend_hours: 20.0
+
+nodes:
+  - id: a1_k1_probe
+    account: acc1
+    kernel: k1_probe.py
+    title: textscour-a1-k1-probe
+    slug: textscour-a1-k1-probe
+    est_hours: 0.3
+    depends_on: []
+    inputs:
+      code_dataset: textscour-code
+    enable_gpu: true
+    accelerator: NvidiaTeslaT4
+    success_criteria:
+      gpu_count_min: 1
+      scour_core_built: true
+      doctor_ok: true
+      hf_reachable: true
+
+  - id: a2_k1_probe
+    account: acc2
+    kernel: k1_probe.py
+    title: textscour-a2-k1-probe
+    slug: textscour-a2-k1-probe
+    est_hours: 0.3
+    depends_on: []
+    inputs:
+      code_dataset: textscour-code
+    enable_gpu: true
+    accelerator: NvidiaTeslaT4
+    success_criteria:
+      gpu_count_min: 1
+      scour_core_built: true
+      doctor_ok: true
+      hf_reachable: true
+
+  - id: a1_k2_autotune
+    account: acc1
+    kernel: k2_autotune_bench.py
+    title: textscour-a1-k2-autotune
+    slug: textscour-a1-k2-autotune
+    est_hours: 1.0
+    depends_on:
+      - a1_k1_probe
+    inputs:
+      code_dataset: textscour-code
+    enable_gpu: true
+    accelerator: NvidiaTeslaT4
+    success_criteria:
+      min_trials: 12
+      throughput_ratio_min: 1.25
+      zero_trial_errors: true
+
+  - id: a2_k3_train
+    account: acc2
+    kernel: k3_train_classifier.py
+    title: textscour-a2-k3-train
+    slug: textscour-a2-k3-train
+    est_hours: 3.5
+    depends_on:
+      - a2_k1_probe
+    inputs:
+      code_dataset: textscour-code
+    enable_gpu: true
+    accelerator: NvidiaTeslaT4
+    publishes_dataset: textscour-model
+    success_criteria:
+      accuracy_thresholds_met: true
+      calibration_present: true
+      model_dir_min_mb: 100
+
+  - id: a1_k4_e2e
+    account: acc1
+    kernel: k4_e2e_validate.py
+    title: textscour-a1-k4-e2e
+    slug: textscour-a1-k4-e2e
+    est_hours: 2.0
+    depends_on:
+      - a1_k2_autotune
+      - a2_k3_train
+    inputs:
+      code_dataset: textscour-code
+      model_dataset: textscour-model
+    enable_gpu: true
+    accelerator: NvidiaTeslaT4
+    success_criteria:
+      conservation_pass: true
+      id_uniqueness_pass: true
+      schema_5_keys_pass: true
+      peak_rss_ram_frac_max: 0.85
+      gpu_routed_chunk_share_max: 0.08
+      quarantine_rate_max: 0.01
+
+  - id: a2_k4_e2e
+    account: acc2
+    kernel: k4_e2e_validate.py
+    title: textscour-a2-k4-e2e
+    slug: textscour-a2-k4-e2e
+    est_hours: 2.0
+    depends_on:
+      - a2_k3_train
+    inputs:
+      code_dataset: textscour-code
+      model_dataset: textscour-model
+    enable_gpu: true
+    accelerator: NvidiaTeslaT4
+    success_criteria:
+      conservation_pass: true
+      id_uniqueness_pass: true
+      schema_5_keys_pass: true
+      peak_rss_ram_frac_max: 0.85
+      gpu_routed_chunk_share_max: 0.08
+      quarantine_rate_max: 0.01
+
+  - id: a1_k5_soak
+    account: acc1
+    kernel: k5_soak_resume.py
+    title: textscour-a1-k5-soak
+    slug: textscour-a1-k5-soak
+    est_hours: 4.0
+    depends_on:
+      - a1_k4_e2e
+    inputs:
+      code_dataset: textscour-code
+      model_dataset: textscour-model
+    enable_gpu: true
+    accelerator: NvidiaTeslaT4
+    success_criteria:
+      id_set_equality: true
+      zero_duplicate_ids: true
+      checkpoint_restored: true
+      controller_events_min: 1
+
+  - id: a2_k5_soak
+    account: acc2
+    kernel: k5_soak_resume.py
+    title: textscour-a2-k5-soak
+    slug: textscour-a2-k5-soak
+    est_hours: 4.0
+    depends_on:
+      - a2_k4_e2e
+    inputs:
+      code_dataset: textscour-code
+      model_dataset: textscour-model
+    enable_gpu: true
+    accelerator: NvidiaTeslaT4
+    success_criteria:
+      id_set_equality: true
+      zero_duplicate_ids: true
+      checkpoint_restored: true
+      controller_events_min: 1

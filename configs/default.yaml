@@ -1,0 +1,105 @@
+# TEXTSCOUR Default Configuration File
+# Contains all keys and sections with their respective system defaults.
+
+# --- Data Sources ---
+sources:
+  - type: hf                              # 'hf' | 'jsonl' | 'json' | 'parquet'
+    repo: "HuggingFaceTB/smollm-corpus"  # Hugging Face dataset identifier
+    name: null                           # Dataset configuration subset name
+    split: "train"                       # Dataset split
+    revision: null                       # Git commit hash / branch name
+    data_files: null                     # Specific files filter
+    paths: []                            # Local paths or glob patterns (for local sources)
+    text:
+      mode: "auto"                       # 'field' | 'path' | 'concat' | 'template' | 'messages' | 'auto'
+      field: "text"                      # Text column or key
+      fields: []                         # List of fields for concat mode
+      sep: "\n\n"                        # Separator between concatenated parts
+      template: null                     # Formatting template (e.g. "{title}\n\n{body}")
+      role_filter: null                  # Chat roles filter (e.g. ['user', 'assistant'])
+    id_field: null                       # Unique ID key; auto-generated hash if null
+    domain: null                         # Dataset domain label or category
+    weight: 1.0                          # Source sampling weight
+    max_docs: null                       # Cap maximum documents read from this source
+
+# --- Output Shards & Schemas ---
+output:
+  dir: "outputs"                         # Directory for written shards
+  clean_name: "clean"                    # Prefix for clean document shards
+  garbage_name: "garbage"                # Prefix for garbage/filtered shards
+  format: "jsonl"                        # 'jsonl' | 'jsonl.zst' | 'parquet'
+  shard_mb: 500                          # Shard rotation threshold in megabytes
+  emit_fragments: false                  # Emit promo/noise fragments as separate records
+  extended_columns: false                # Include quality scores in clean outputs
+  final_merge: false                     # Concatenate shards into single unified file on finish
+
+# --- Remote Hugging Face Upload ---
+upload:
+  enabled: false                         # Enable background commits to HF Hub
+  repo: null                             # Destination dataset repository ('org/dataset')
+  private: true                          # Whether destination repository is private
+  commit_every_shards: 4                 # Batch size of shards per git commit
+  commit_every_seconds: 300              # Maximum interval between commits
+  delete_after_upload: false             # Delete local shard files after confirmed commit
+  state_backend: "local"                 # 'hf' | 'local'
+
+# --- Stage 1 & Cascade Filtering Heuristics ---
+cascade:
+  gpu_mode: "auto"                       # 'auto' | 'off'
+  model: "titanAId/textscour-classifier" # Hugging Face model identifier
+  gpu_drop_p: 0.85                       # Classifier prob threshold to drop ambiguous chunk
+  gpu_strip_p: 0.50                      # Classifier prob threshold to strip ambiguous sentences
+  promo_lo: 0.30                         # Lower promo score threshold (start of ambiguity)
+  promo_hi: 0.70                         # Upper promo score threshold (definitive promo)
+  url_policy: "smart"                    # 'smart' | 'remove_all' | 'allowlist_only' | 'keep_all' | 'blocklist'
+  allow_hosts: []                        # Extra allowed host suffixes
+  block_hosts: []                        # Extra blocked host suffixes
+  min_doc_chars: 200                     # Minimum char length for clean verdict
+  clean_threshold: 6.0                   # Minimum quality score [0.0, 10.0] for clean verdict
+  pii_mode: "redact"                     # 'redact' | 'drop' | 'off'
+  pii_drop_min_hits: 1                   # Minimum PII hits required to drop document
+  allowed_langs:                         # Allowed languages
+    - "en"
+    - "hi"
+    - "hinglish"
+  lexicon_dir: "configs/lexicons"        # Directory holding TSV/TXT lexicons
+  domain_mode: "dataset"                 # 'field' | 'url_host' | 'dataset' | 'topic'
+  keep_urls_in_code: true                # Preserve URLs inside markdown code fences
+  chunk_target_chars: 800                # Target character count per chunk
+  chunk_min_chars: 100                   # Minimum chunk size before merging
+  chunk_max_chars: 2000                  # Maximum chunk size before hard split
+  max_doc_chars: 2000000                 # Maximum document character cap
+  normalize_unicode: true                # Apply NFKC Unicode normalization
+  gopher:                                # Quality heuristic thresholds
+    min_alpha_ratio: 0.50
+    max_symbol_ratio: 0.10
+    max_dup_line_frac: 0.30
+    max_top_2gram_cov: 0.20
+    max_top_3gram_cov: 0.18
+    max_top_4gram_cov: 0.16
+    max_short_line_frac: 0.70
+    min_avg_line_len: 40.0
+    max_boilerplate_hits: 2
+    min_stopword_ratio: 0.06
+
+# --- Concurrency & System Runtime ---
+runtime:
+  autotune: "auto"                       # 'auto' | 'cached' | 'off'
+  readers: "auto"                        # Number of reader processes ('auto' or integer)
+  workers: "auto"                        # Number of pipeline workers ('auto' or integer)
+  rust_threads: "auto"                   # Rayon threadpool size ('auto' or integer)
+  batch_docs: "auto"                     # Batch size in documents ('auto' or integer)
+  queue_depth: "auto"                    # Inter-process queue depth ('auto' or integer)
+  gpu_batch_tokens: "auto"               # Dynamic GPU token budget ('auto' or integer)
+  gpu_inflight: 2                        # Maximum in-flight GPU sub-batches
+  gpu_job_chunks: 128                    # Max ambiguous chunks per GPU sub-batch
+  max_runtime_seconds: null              # Wall-clock timeout in seconds
+  disk_budget_gb: 16.0                   # Available disk safety threshold in gigabytes
+  ram_budget_frac: 0.80                  # Maximum fraction of system RAM to utilize
+  max_error_rate: 0.01                   # Maximum allowable error rate before alarm
+
+# --- Global Deduplication ---
+dedup:
+  mode: "minhash"                        # 'exact' | 'minhash' | 'off'
+  shingle_k: 5                           # Word shingle size k for MinHash
+  max_mem_gb: 2.0                        # Dedicated dedup hash table memory ceiling

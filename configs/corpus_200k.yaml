@@ -1,0 +1,50 @@
+# TEXTSCOUR 200k Benchmark & Resilience Configuration
+sources:
+  - type: jsonl
+    paths:
+      - "tests/data/corpus_200000.jsonl"
+    text:
+      mode: "auto"
+
+output:
+  dir: "outputs/corpus_200k"
+  clean_name: "clean"
+  garbage_name: "garbage"
+  format: "jsonl"
+  shard_mb: 50
+  emit_fragments: true
+  final_merge: false
+
+upload:
+  enabled: false
+
+cascade:
+  gpu_mode: "off"
+  model: null
+  promo_lo: 0.30
+  promo_hi: 0.70
+  url_policy: "smart"
+  min_doc_chars: 50
+  clean_threshold: 5.0
+  pii_mode: "redact"
+  allowed_langs:
+    - "en"
+    - "hi"
+    - "hinglish"
+  lexicon_dir: "configs/lexicons"
+
+runtime:
+  autotune: "off"
+  readers: 1
+  workers: 2
+  rust_threads: 2
+  batch_docs: 256
+  queue_depth: 2
+  disk_budget_gb: 20.0
+  ram_budget_frac: 0.50
+  max_error_rate: 0.05
+
+dedup:
+  mode: "exact"
+  shingle_k: 5
+  max_mem_gb: 1.0

@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "textscour"
+version = "0.1.0"
+description = "Rust/Python hybrid, GPU-assisted streaming text-cleaning engine for LLM pretraining/SFT corpora"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "pyyaml>=6.0",
+    "zstandard>=0.23.0",
+    "pyarrow>=16.0.0",
+    "datasets>=3.0.0",
+    "huggingface-hub>=0.24.0",
+    "transformers>=4.40.0",
+    "torch>=2.0.0",
+    "xxhash>=3.4.0",
+    "regex>=2024.0.0",
+    "tqdm>=4.66.0",
+    "requests>=2.31.0",
+    "rich>=13.0.0",
+    "click>=8.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[project.scripts]
+textscour = "textscour.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,19 @@
+{
+  "d0ec0e6eae2955fca6eceebd02b178215b8ebfd4": {
+    "params": {
+      "workers": 4,
+      "rust_threads": 2,
+      "readers": 1,
+      "batch_docs": 256,
+      "queue_depth": 4,
+      "gpu_batch_tokens": 16384,
+      "gpu_inflight": 2,
+      "chunk_target_chars": 800
+    },
+    "results": {
+      "status": "ok"
+    },
+    "saved_at": 1794576357.887114,
+    "engine_version": "0.1.0"
+  }
+}
